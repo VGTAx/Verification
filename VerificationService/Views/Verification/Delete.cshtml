@@ -1,0 +1,57 @@
+﻿@model Verification
+
+@{
+  ViewData["Title"] = "Удаление проверки";
+  var url = ViewBag.IndexViewUrl as string;
+  if (!String.IsNullOrEmpty(url))
+  {
+    url = url.Replace("%2F", "/");
+  }
+  var detailsUrl = Url.Action("Details", new { Id = Model.Id, returnUrl = url });
+}
+
+<div>
+  <h4>Подтвердите удаление проверки</h4>
+  <hr />
+  <dl class="row">
+    <dt class="row-sm-4">
+      @Html.DisplayNameFor(model => model.BusinessEntity)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.BusinessEntity)
+    </dd>
+    <dt class="col-sm-4">
+      @Html.DisplayNameFor(model => model.Organization)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Organization)
+    </dd>
+    <dt class="col-sm-4">
+      @Html.DisplayNameFor(model => model.BeginPeriod)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.BeginPeriod)
+    </dd>
+    <dt class="col-sm-4">
+      @Html.DisplayNameFor(model => model.EndPeriod)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.EndPeriod)
+    </dd>
+    <dt class="col-sm-4">
+      @Html.DisplayNameFor(model => model.Duration)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Duration)
+    </dd>
+  </dl>
+
+  <form id="deleteForm" asp-action="Delete" data-controller="Verification" data-target="DeleteVerification">
+    <input type="hidden" asp-for="Id"  id="formId"/>
+    <input type="hidden" id="returUrl" name="returnUrl" value="@url" />
+    <input type="submit" value="Удалить" class="btn btn-danger btn-sm fw-bold" />
+    <a href="@detailsUrl" class="btn btn-success btn-sm fw-bold">Назад</a>
+  </form>
+</div>
+
+<script src="~/js/deleteObjectForm.js"></script>  

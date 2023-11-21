@@ -1,0 +1,39 @@
+﻿@model ImportVerificationViewModel
+
+@{
+  ViewData["Title"] = "Create";
+}
+
+<div class="modal fade" id="modalImportVerification" tabindex="-1" aria-labelledby="modalImportVerification" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Импорт данных из Excel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="importVerification" method="post" asp-action="ImportFromExcel" asp-controller="Verification" enctype="multipart/form-data" data-controller="Verification" data-target="ImportFromExcel">
+          <div class="form-group">
+            <input type="file" class="btn btn-secondary btn-sm fw-bold" value="Файл" name="FileInput"/>             
+          </div>
+          <div>
+            <span id="FileInputSpan" asp-validation-for="FileInput" class="text-danger"></span>
+          </div>
+          <div class="form-check form-check-inline my-2">
+            <input id="deleteDuplicate" class="form-check-input" type="checkbox" name="CheckDuplicate" value="true" checked />
+            <label for="deleteDuplicate">Удалить дубликаты</label>              
+          </div>
+          <div class="form-check form-check-inline">
+            <input id="deleteIncorrectValue" class="form-check-input" type="checkbox" name="DeleteIncorrectValue" value="true" checked />
+            <label for="deleteIncorrectValue">Удалить записи с некорректным периодом или длительностью проверки</label>
+          </div>
+          <span id="importSpan" class="text-danger"></span>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary btn-sm fw-bold">Импорт</button>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

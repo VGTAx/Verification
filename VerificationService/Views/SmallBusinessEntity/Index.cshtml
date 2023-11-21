@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SmallBusinessEntity>
+
+
+@{
+  ViewData["Title"] = "Список субъектов малого предпринимательства";
+}
+
+<h4>@ViewData["Title"]</h4>
+<div class="form">
+  <p>
+    <a asp-action="Create" asp-controller="SmallBusinessEntity" class="btn btn-primary btn-sm  fw-bold linkForm" data-bs-toggle="modal" data-bs-target="#modalCreateSmallBusinessEntity" data-target="createSmallBusinessEntityForm"> Добавить субъект </a>
+    @await Component.InvokeAsync(nameof(CreateSmallBusinessEntity))
+  </p>
+</div>
+<div class="tableClass">
+  <table class="table table-hover table-sm align-middle w-50">
+    <thead class="table-success">
+      <tr class="fs-6">
+        <th class="text-center align-middle">
+          @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td class="col-sm-6 text-center align-middle">
+            @Html.DisplayFor(modelItem => item.Name)
+          </td>
+          <td class="col-sm-3">
+            <a asp-action="Details" asp-route-id="@item?.Id" class="btn btn-outline-success btn-sm fw-bold ">Информация</a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<script src="~/js/createObject.js"></script>

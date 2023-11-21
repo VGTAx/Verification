@@ -1,0 +1,26 @@
+﻿@model InspectingOrganization
+
+<div class="modal fade" id="modalEditInspectingOrganization" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditInspectingOrganizationLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Редактирование проверяющей организации</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" data-target="EditInspectingOrganization" data-controller="InspectingOrganization" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" id="formId" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+               <span asp-validation-for="Name" id="NameSpan" class="text-danger"></span>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="Сохранить" class="btn btn-primary fw-bold" />
+            </div>
+        </form>
+      </div>       
+    </div>
+  </div>
+</div>

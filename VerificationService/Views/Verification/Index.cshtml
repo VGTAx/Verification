@@ -1,0 +1,138 @@
+﻿@model X.PagedList.IPagedList<Verification>
+
+@{
+  ViewData["Title"] = "Реестр проверок";
+  var filter = ViewBag.Filter as FilterViewModel;
+  if (filter is null)
+  {
+    filter = new FilterViewModel();
+  }           
+  /* Преобразуем дату начала периода в строку и передаем в фильтр */
+  var begPeriodStr = filter.BegPeriod != DateOnly.MinValue ? filter.BegPeriod.ToString("yyyy-MM-dd") : "";
+  /* Преобразуем дату конца периода в строку и передаем в фильтр */
+  var endPeriodsStr = filter.EndPeriods != DateOnly.MinValue ? filter.EndPeriods.ToString("yyyy-MM-dd") : "";
+}
+
+<h3>@ViewData["Title"]</h3>
+<div class="filterForm">
+  <form id="filterForm" data-controller="Verification">
+    <div class="line">
+      <div class="form-group px-1">
+        <label for="businessSpan" class="form-label">Субъект</label>
+        <input type="text" value="@filter.Business" name="business" class="form-control" />
+      </div>
+      <div class="form-group px-1">
+        <label for="orgSpan" class="form-label">Организация</label>
+        <input type="text" value="@filter.Org" name="org" class="form-control" />
+      </div>
+      <div class="form-group px-1">
+        <label for="begPeriodSpan" class="form-label">Начало периода</label>
+        <input type="date" value="@begPeriodStr" name="begPeriod" class="form-control" />
+      </div>
+      <div class="form-group px-1">
+        <label for="endPeriodsSpan" class="form-label">Конец периода</label>
+        <input type="date" value="@endPeriodsStr" name="endPeriods" class="form-control" />
+      </div>
+    </div>
+    <span id="BegPeriodSpan" class="text-danger align-self-center"></span>
+    <div class="lineBtn justify-content-center">
+      <div class="form-group px-1 text-center">
+        <a asp-action="Create" asp-controller="Verification" class="btn btn-primary btn-sm fw-bold linkForm" data-bs-toggle="modal" data-bs-target="#modalCreateVerification" data-target="createVerificationForm">Добавить проверку </a>
+      </div>
+      <div class="form-group px-1 text-center">
+        <button type="submit" asp-controller="Verification" asp-action="Index" data-action="Index" class="btn btn-success btn-sm fw-bold">Применить фильтр</button>
+      </div>
+      <div class="form-group px-1 text-center">
+        <a asp-action="Index" asp-controller="Verification" class="btn btn-success btn-sm fw-bold">Сбросить фильтр</a>
+      </div>
+      <div class="form-group px-1 text-center">
+        <button type="submit" asp-controller="Verification" asp-action="ExportToExcel" data-action="ExportToExcel" class="btn btn-success btn-sm fw-bold">Экспорт в Excel</button>
+      </div>
+      <div class="form-group px-1 text-center">
+        <a asp-action="Import" asp-controller="Verification" class="btn btn-success btn-sm fw-bold linkForm" data-bs-toggle="modal" data-bs-target="#modalImportVerification" data-target="importVerificationForm">Импорт из Excel</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+@await Component.InvokeAsync(nameof(CreateVerification))
+@await Component.InvokeAsync(nameof(ImportVerificationFromExcel))
+
+<div class="table-container">
+  <div class="table" >
+    <table class="table table-hover table-sm align-middle w-100">
+      <thead class="table-success">
+        <tr class="fs-6">
+          <th class="align-middle text-center">
+            @Html.DisplayName("Проверяемый субъект")
+          </th>
+          <th class="align-middle text-center">
+            @Html.DisplayName("Проверяющая организация")
+          </th>
+          <th class="align-middle text-center">
+            @Html.DisplayName("Начало периода")
+          </th>
+          <th class="align-middle text-center">
+            @Html.DisplayName("Конец периода")
+          </th>
+          <th class="align-middle text-center">
+            @Html.DisplayName("Длительность (дней)")
+          </th>
+          <th>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model)
+        {
+          <tr>
+            <td class="align-middle text-center">
+              @Html.DisplayFor(modelItem => item.BusinessEntity)
+            </td>
+            <td class="align-middle text-center">
+              @Html.DisplayFor(modelItem => item.Organization)
+            </td>
+            <td class="align-middle text-center">
+              @Html.DisplayFor(modelItem => item.BeginPeriod)
+            </td>
+            <td class="align-middle text-center">
+              @Html.DisplayFor(modelItem => item.EndPeriod)
+            </td>
+            <td class="align-middle text-center">
+              @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td class="col-sm-3 align-middle text-center">
+              <a asp-action="Details" asp-route-id="@item?.Id" asp-route-returnUrl="@ViewBag.IndexViewUrl" class="btn btn-outline-success btn-sm fw-bold ">Информация</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <!-- Пагинация -->
+  <div class="pagination-container m-3">
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+     new FilterViewModel {
+      Business = filter.Business,
+      Org =  filter.Org,
+      BegPeriod =  filter.BegPeriod,
+      EndPeriods = filter.EndPeriods,
+      Page = page
+    }), new PagedListRenderOptions()      // Стилизация пагинации
+    {
+      ActiveLiElementClass = "active",
+      PageClasses = new[]{ "page-link"},
+      LiElementClasses=new[] { "page-item" },
+      UlElementClasses = new[] { "pagination","justify-content-center", "mt-3" },
+      LinkToNextPageFormat = "Вперед",
+      LinkToPreviousPageFormat = "Назад",
+      MaximumPageNumbersToDisplay = 4,
+      DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+      DisplayLinkToNextPage = PagedListDisplayMode.Always
+    })
+  </div>
+</div>
+
+<script src="~/js/createObject.js"></script>
+<script src="~/js/FilterForm.js"></script>
+<script src="~/js/importFileForm.js"></script>

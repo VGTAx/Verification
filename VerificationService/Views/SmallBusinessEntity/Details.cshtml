@@ -1,0 +1,26 @@
+﻿@model SmallBusinessEntity
+
+@{
+  ViewData["Title"] = "Информация о субъекте";
+}
+<h1>@ViewData["Title"]</h1>
+
+@await Html.PartialAsync("Edit")
+<div>
+  <hr />
+  <dl class="row">
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Name):
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Name)
+    </dd>
+  </dl>
+</div>
+<div>
+  <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-info btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalEditSmallBusinessEntity" data-target="editForm">Изменить</a> |
+  <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger btn-sm fw-bold">Удалить</a> |
+  <a asp-action="Index" class="btn btn-success btn-sm fw-bold">Назад</a>
+</div>
+
+<script src="~/js/editObjectForm.js"></script>  

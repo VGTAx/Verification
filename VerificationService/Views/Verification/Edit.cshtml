@@ -1,0 +1,68 @@
+﻿@model VerificationViewModel
+
+@{
+  var indexViewUrl = ViewBag.IndexViewUrl as string;
+  if (!String.IsNullOrEmpty(indexViewUrl))
+  {
+    indexViewUrl = indexViewUrl.Replace("%2F", "/");
+  }
+}
+
+
+<div class="modal fade" id="modalEditVerification" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditVerificationLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Редактирование проверки</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" asp-action="Edit" asp-controller="Verification" data-controller="Verification" data-target="EditVerification">
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          <input type="hidden" id="formId" asp-for="Id" />
+          <div class="form-group">
+            <label asp-for="BusinessEntitiesList" class="control-label"></label>
+            <datalist id="datalistEntities">
+              @foreach (var item in Model.BusinessEntitiesList)
+              {
+                <option value="@item"></option>
+              }
+            </datalist>
+            <input list="datalistEntities" asp-for="BusinessEntity" class="form-control" />
+            <span asp-validation-for="BusinessEntitiesList" id="BusinessEntitySpan" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="OrganizationsList" class="control-label"></label>
+            <datalist id="dataListOrganizations">
+              @foreach (var item in Model.OrganizationsList)
+              {
+                <option value="@item"></option>
+              }
+            </datalist>
+            <input list="dataListOrganizations" asp-for="Organization" class="form-control" />
+            <span asp-validation-for="OrganizationsList" id="OrganizationSpan" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="BeginPeriod" class="control-label"></label>
+            <input asp-for="BeginPeriod" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+            <span asp-validation-for="BeginPeriod" id="BeginPeriodSpan" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="EndPeriod" class="control-label"></label>
+            <input asp-for="EndPeriod" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+            <span asp-validation-for="EndPeriod" id="EndPeriodSpan" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="Duration" class="control-label"></label>
+            <input asp-for="Duration" class="form-control" />
+            <span asp-validation-for="Duration" id="DurationSpan" class="text-danger"></span>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" value="Сохранить" asp-route-returnUrl="@indexViewUrl" class="btn btn-primary" />
+            <input type="hidden" id="returnUrl" name="returnUrl" value="@indexViewUrl" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

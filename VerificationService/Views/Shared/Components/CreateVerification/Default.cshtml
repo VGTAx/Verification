@@ -1,0 +1,66 @@
+﻿@model VerificationViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="modal fade" id="modalCreateVerification" tabindex="-1" aria-labelledby="modalCreateVerification" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Добавление проверки</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="createVerificationForm" asp-action="Create" asp-controller="Verification" autocomplete="off" data-controller="Verification" data-target="Create">
+           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           <div hidden class="form-group">
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="BusinessEntitiesList" class="control-label"></label>
+            <datalist id="datalistEntities">
+               @foreach (var item in Model.BusinessEntitiesList)
+              {
+                <option value="@item"></option>
+              }
+            </datalist>
+            <input list="datalistEntities" asp-for="BusinessEntity" class="form-control" />
+            <span asp-validation-for="BusinessEntitiesList" id="BusinessEntitySpan" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="OrganizationsList" class="control-label"></label>
+            <datalist id="dataListOrganizations">
+              @foreach (var item in Model.OrganizationsList)
+              {
+                <option value="@item"></option>
+              }
+            </datalist>
+            <input list="dataListOrganizations" asp-for="Organization" class="form-control" />
+            <span asp-validation-for="OrganizationsList" id="OrganizationSpan" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="BeginPeriod" class="control-label"></label>
+            <input asp-for="BeginPeriod" class="form-control" />
+            <span asp-validation-for="BeginPeriod" id="BeginPeriodSpan" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="EndPeriod" class="control-label"></label>
+            <input asp-for="EndPeriod" class="form-control" />
+            <span asp-validation-for="EndPeriod" id="EndPeriodSpan" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="Duration" class="control-label"></label>
+            <input asp-for="Duration" class="form-control" />
+            <span asp-validation-for="Duration" id="DurationSpan" class="text-danger"></span>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" value="Добавить" class="btn btn-primary" />
+          </div>
+        </form>
+      </div>      
+    </div>
+  </div>
+</div>
