@@ -1,4 +1,4 @@
-# VerificationService
+# Verification
 
 Verification is a web application that is a system for managing verifications.
 
